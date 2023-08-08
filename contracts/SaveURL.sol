@@ -15,8 +15,8 @@ contract SaveURL {
     }
     address owner;
     uint256 public basicPrice;
-    uint256 public premiumPrice;
-    uint256 public masterPrice;
+    uint256 public premiumPrice = 0 ether;
+    uint256 public masterPrice = 0 ether;
 
     uint256 constant BASIC_PLAN = 50;
     uint256 premiumPlanLimit;
@@ -59,6 +59,15 @@ constructor(uint _premiumPrice, uint _masterPrice, uint256 _premiumPlanlimit, ui
     // mapping of address to array
     //  keep track of shared photos by sharer: mapping of sharer Address => struct(member: <Array of addresses>, <Array of URI strings>);
 
+/**
+* @dev create account
+* it turns the mapping of account status to true
+*/ 
+  function CreateAccount() public {
+        require(accountStatus[msg.sender] == false, 'already created');
+        accountStatus[msg.sender] = true;
+        totalPurchsed[msg.sender] = 50;
+    }
     /**
 * @dev Buy space
 * Premium space
@@ -125,11 +134,7 @@ constructor(uint _premiumPrice, uint _masterPrice, uint256 _premiumPlanlimit, ui
         return true;
     }
 
-    function CreateAccount() public {
-        require(accountStatus[msg.sender] == false, 'already created');
-        accountStatus[msg.sender] = true;
-        totalPurchsed[msg.sender] = 50;
-    }
+  
 
     /**
      * @dev Function to save to Folder
